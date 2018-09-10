@@ -8,7 +8,7 @@ public class Neuron{
 	
 	public Neuron(double x,double y){
 		this.x = x;
-		this.y = y;
+		this.y = y;	
 		
 		this.wx = Math.random();
 		this.wy = Math.random();

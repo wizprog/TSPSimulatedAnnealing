@@ -37,10 +37,14 @@ public class AppletTSP extends Applet implements Runnable {
 
 	public void init() {
 		this.setName("TSP Simulated Annealing");
-		this.setSize(500,500);
+		this.setBackground(Color.RED);
+		TextField txt1 = new TextField("Number of cities");
+		this.setSize(1000,800);
+		
 		som.kohonenInit();
 
 		Panel p = new Panel();
+		p.setSize(WIDTH,30);
 		l = new Label("Broj gradova : " + som.brojGradova);
 		p.add(l);
 		l2 = new Label("Ukupno rastojanje:");
@@ -48,14 +52,11 @@ public class AppletTSP extends Applet implements Runnable {
 		l1 = new Label();
 		p.add(l1);
 
-		l.setBackground(bkC);
-		l1.setBackground(bkC);
-		l2.setBackground(bkC);
 		l2.setFont(mF);
 		l.setFont(mF);
 		
 		l1 = new Label();
-		add(l1);
+		p.add(l1);
 
 		p.setBackground(Color.GRAY);
 		add(p,BorderLayout.NORTH);
@@ -67,14 +68,15 @@ public class AppletTSP extends Applet implements Runnable {
 	@Override
 	public void run() {
 		int count = 0;
-
+		
+		counter = 0;
 		while (!please_stop) {
 
 			counter++;
 
 			som.Trening();
 
-			count = (count++) % 10; // na stakih 10 iteracija na se prikaze
+			count = (count++) % 10;
 			if (count == 0) {
 
 				paint(this.getGraphics());
@@ -87,10 +89,12 @@ public class AppletTSP extends Applet implements Runnable {
 						}
 					}
 				}
-
-				if (brojac == som.brojGradova) {
+							
+				System.out.println(counter);
+				if (brojac == som.brojGradova || counter==1000) {
 					please_stop = true;
 					l1.setText("" + som.UkupnaDistanca());
+					paint(this.getGraphics());
 				}
 
 				// l1.setText(""+som.UkupnaDistanca());
@@ -103,9 +107,7 @@ public class AppletTSP extends Applet implements Runnable {
 			}
 
 		}
-
 		animator = null;
-
 	}
 
 	
@@ -117,7 +119,7 @@ public class AppletTSP extends Applet implements Runnable {
 		g.setFont(mF);
 
 		// CLEAR ALL
-		g.setColor(bkC);
+		g.setColor(Color.RED);
 		g.fillRect(0, 0, w, h);
 		
 
@@ -141,11 +143,11 @@ public class AppletTSP extends Applet implements Runnable {
 
 	public void paint(Graphics g) {
 		
-		this.setSize(500, 500);
+		this.setSize(1000, 800);
 		int w = getSize().width;
 		int h = getSize().height;
 
-		this.setBackground(bkC);
+		this.setBackground(Color.RED);
 
 		if ((offscreen == null) || ((imagewidth != w) || (imageheight != h))) {
 			offscreen = this.createImage(w, h);
@@ -171,7 +173,7 @@ public class AppletTSP extends Applet implements Runnable {
 		System.gc();
 
 		// CLEAR ALL
-		g.setColor(bkC);
+		g.setColor(Color.RED);
 		g.fillRect(w / 2 + 30, 0, w / 2 + 130, 20);
 		g.setColor(fgC);
 
