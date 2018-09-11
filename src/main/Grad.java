@@ -60,5 +60,13 @@ private int update,choose;
 	public void setChoose(int choose) {
 		this.choose = choose;
 	}
+
+	@Override
+	public String toString() {
+		return "Grad [x=" + x + ", y=" + y + "]";
+	}
+	
+	
+	
 	
 }

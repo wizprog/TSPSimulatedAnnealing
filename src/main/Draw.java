@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.Rectangle;
@@ -30,12 +31,17 @@ public class Draw extends Component implements Runnable {
 	Font sF = new Font("Courier", Font.BOLD, 8);
 
 	int counter = 0;
-	SOM som = new SOM();
-	public Thread animator = null;
+	public static SOM som = new SOM();
 	public boolean please_stop = false;
+
+	public static boolean drawConections = false;
 
 	@Override
 	public void run() {
+
+		Evolve.btn1.setEnabled(false);
+		Evolve.btn2.setEnabled(false);
+
 		int count = 0;
 
 		counter = 0;
@@ -48,7 +54,8 @@ public class Draw extends Component implements Runnable {
 			count = (count++) % 10;
 			if (count == 0) {
 
-				paint(this.getGraphics());
+				// paint(this.getGraphics());
+				repaint();
 
 				int brojac = 0;
 				for (int i = 0; i < som.grad.length; i++) {
@@ -59,11 +66,12 @@ public class Draw extends Component implements Runnable {
 					}
 				}
 
-				System.out.println(counter);
-				if (brojac == som.brojGradova || counter == 1000) {
+				if (brojac == som.brojGradova || counter == 1300) {
 					please_stop = true;
-					l1.setText("" + som.UkupnaDistanca());
-					paint(this.getGraphics());
+					Evolve.l1.setText("");
+					Evolve.l2.setText("Ukupno rastojanje: "+ + som.UkupnaDistanca());
+					// paint(this.getGraphics());
+					repaint();
 				}
 
 				// l1.setText(""+som.UkupnaDistanca());
@@ -76,13 +84,15 @@ public class Draw extends Component implements Runnable {
 			}
 
 		}
-		animator = null;
+
+		Evolve.btn1.setEnabled(true);
+		Evolve.btn2.setEnabled(true);
 	}
 
 	public void paintLeft(Graphics g) {
+
 		int w = getSize().width;
 		int h = getSize().height;
-
 		g.setFont(mF);
 
 		// CLEAR ALL
@@ -90,52 +100,61 @@ public class Draw extends Component implements Runnable {
 		g.fillRect(0, 0, w, h);
 
 		// DRAW PATH
-		g.setColor(lnC);
-		for (int i = 0; i < som.brNerona; i++) {
-			g.drawLine(toXReal(som.neuroni[i].wx), toYReal(som.neuroni[i].wy),
-					toXReal(som.neuroni[(i + 1) % som.brNerona].wx), toYReal(som.neuroni[(i + 1) % som.brNerona].wy));
-			// g.drawString(""+i+"-"+(gn[i].update*100/counter)+"%",toXReal(gn[i].wx),toYReal(gn[i].wy));
+
+		if (drawConections) {
+			g.setColor(Color.BLUE);
+			for (int i = 0; i < som.brNerona; i++) {
+				g.drawLine(toXReal(som.neuroni[i].wx), toYReal(som.neuroni[i].wy),
+						toXReal(som.neuroni[(i + 1) % som.brNerona].wx),
+						toYReal(som.neuroni[(i + 1) % som.brNerona].wy));
+				// g.drawString(""+i+"-"+(gn[i].update*100/counter)+"%",toXReal(gn[i].wx),toYReal(gn[i].wy));
+			}
 		}
 
 		g.setColor(fgC);
+		
+			for (int i = 0; i < SOM.brojGradova; i++) {
+				g.fillOval(toXReal(som.grad[i].getX()) - 4, toYReal(som.grad[i].getY()) - 4, 9, 9);
+				g.setColor(g.getColor().BLACK);
+				g.drawString("" + i + "", toXReal(som.grad[i].getX()), toYReal(som.grad[i].getY()) - 8);
+			}
 
-		// DRAW CITYS
-		for (int i = 0; i < som.brojGradova; i++) {
-			g.fillOval(toXReal(som.grad[i].getX()) - 4, toYReal(som.grad[i].getY()) - 4, 9, 9);
-			g.setColor(g.getColor().BLACK);
-			g.drawString("" + i + "", toXReal(som.grad[i].getX()), toYReal(som.grad[i].getY()) - 8);
-		}
+
 	}
 
 	public void paint(Graphics g) {
 
+		Graphics2D g2 = (Graphics2D) g;
 		this.setSize(1000, 800);
 		int w = getSize().width;
 		int h = getSize().height;
 
 		this.setBackground(Color.RED);
 
+	/*	Rectangle clip = new Rectangle(0, 0, toXReal(som.COUNTRY), toYReal(som.COUNTRY));
+		g2.clipRect(clip.x, clip.y, clip.width, clip.height);
+
+		paintLeft(g2);
+
+		System.gc();*/
+		
 		if ((offscreen == null) || ((imagewidth != w) || (imageheight != h))) {
 			offscreen = this.createImage(w, h);
 			imagewidth = w;
 			imageheight = h;
 		}
+		
+		Rectangle clip = new Rectangle(0, 0, toXReal(SOM.COUNTRY), toYReal(SOM.COUNTRY));
 
-		Rectangle clip = new Rectangle(0, 0, toXReal(som.COUNTRY), toYReal(som.COUNTRY));
-
+		
 		Graphics goff = offscreen.getGraphics();
 		goff.clipRect(clip.x, clip.y, clip.width, clip.height);
 		Graphics g1 = this.getGraphics();
-
+		
 		g1.clipRect(clip.x, clip.y, clip.width, clip.height);
 
 		paintLeft(goff);
 		g1.drawImage(offscreen, 0, 0, this);
-
-		clip = null;
-		goff = null;
-		g1 = null;
-		System.gc();
 
 		// CLEAR ALL
 		g.setColor(Color.RED);
@@ -151,7 +170,7 @@ public class Draw extends Component implements Runnable {
 
 	private int toYReal(double val) {
 		int h = getSize().height;
-		return (int) (val * ((double) h - 50.0) / som.COUNTRY + 25.0);
+		return (int) (val * ((double) h - 50.0) / som.COUNTRY + 10.0);
 	}
 
 }

@@ -17,18 +17,19 @@ public class SOM {
 	public static double theta, phi, momentum;
 
 	public void kohonenInit() {
-		if (brojac == 0) {
+	
+	/*	if (brojac == 0) {
 
 			Scanner s = new Scanner(System.in);
 			System.out.println("unesite broj gradova:");
 			brojGradova = s.nextInt();
 			brojac++;
 		}
-
+*/
 		theta = 0.5; // 0.3;
 		phi = 0.5; // 0.7;
 		momentum = 0.995;// 0.9987;
-		brNerona = brojGradova * 2; // broj neurona je duplo veci
+		brNerona = brojGradova * 3; // broj neurona je duplo veci
 
 		grad = new Grad[brojGradova];
 		for (int i = 0; i < brojGradova; i++)
@@ -44,7 +45,9 @@ public class SOM {
 		r = new double[brNerona][brNerona];
 
 		KreirajMaricuR(theta);
-
+		System.out.println("Kreirano");
+		System.out.println(grad.toString());
+		System.out.println(neuroni.toString());
 		// counter = 0;
 
 	}

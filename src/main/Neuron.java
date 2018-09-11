@@ -82,6 +82,12 @@ public class Neuron{
 		this.choose = choose;
 	}
 
+	@Override
+	public String toString() {
+		return "Neuron [x=" + x + ", y=" + y + ", wx=" + wx + ", wy=" + wy + "]";
+	}
+
+	
 
 	
 }
