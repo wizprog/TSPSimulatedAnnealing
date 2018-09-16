@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class SOM {
@@ -16,10 +17,12 @@ public class SOM {
 
 	public static double theta, phi, momentum;
 
-	public void kohonenInit() {
+	public void kohonenInit(int x, int y) {
+		Random rand = new Random();
 	
 	/*	if (brojac == 0) {
 
+			random.nextInt(max - min + 1) + min
 			Scanner s = new Scanner(System.in);
 			System.out.println("unesite broj gradova:");
 			brojGradova = s.nextInt();

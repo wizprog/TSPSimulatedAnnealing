@@ -76,7 +76,7 @@ public class Evolve extends Frame {
 							 	Draw.drawConections = false;
 							 	int count = Integer.parseInt(txt1.getText());
 							 	SOM.brojGradova = count;
-							 	Draw.som.kohonenInit();
+							 	Draw.som.kohonenInit(getSize().height,getSize().width);
 							 	l1.setText("Cities created");
 							 	System.out.println("Broj gradova: " + SOM.brojGradova);
 							 	l.setText("Broj gradova: " + SOM.brojGradova);

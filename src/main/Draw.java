@@ -166,12 +166,15 @@ public class Draw extends Component implements Runnable {
 
 	private int toXReal(double val) {
 		int w = getSize().width;
-		return (int) (val * ((double) w - 20.0) / som.COUNTRY + 10.0);
+		int d = (int) (val * ((double) w - 40.0) / som.COUNTRY + 20.0);
+		return d;
 	}
 	
 	private int toYReal(double val) {
 		int h = getSize().height;
-		return (int) (val * ((double) h - 70.0) / som.COUNTRY);
+		int d = (int) (val * ((double) h - 200.00) / som.COUNTRY);
+		d+=50;
+		return d;
 	}
 
 }
