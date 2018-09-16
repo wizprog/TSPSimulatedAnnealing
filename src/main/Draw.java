@@ -38,6 +38,7 @@ public class Draw extends Component implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("Pozvan");
 
 		Evolve.btn1.setEnabled(false);
 		Evolve.btn2.setEnabled(false);
@@ -84,7 +85,7 @@ public class Draw extends Component implements Runnable {
 			}
 
 		}
-
+		please_stop = false;
 		Evolve.btn1.setEnabled(true);
 		Evolve.btn2.setEnabled(true);
 	}
@@ -165,12 +166,12 @@ public class Draw extends Component implements Runnable {
 
 	private int toXReal(double val) {
 		int w = getSize().width;
-		return (int) (val * ((double) w / 2.0 - 50.0) / som.COUNTRY + 25.0);
+		return (int) (val * ((double) w - 20.0) / som.COUNTRY + 10.0);
 	}
-
+	
 	private int toYReal(double val) {
 		int h = getSize().height;
-		return (int) (val * ((double) h - 50.0) / som.COUNTRY + 10.0);
+		return (int) (val * ((double) h - 70.0) / som.COUNTRY);
 	}
 
 }

@@ -18,6 +18,7 @@ public class Evolve extends Frame {
 	
 	Font mF = new Font("Courier", Font.BOLD, 14);
 	Font sF = new Font("Courier", Font.BOLD, 8);
+	
 	private Draw main= new Draw();
 	
 	public static Button btn1 = new Button("Create");
