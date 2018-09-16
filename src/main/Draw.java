@@ -69,8 +69,12 @@ public class Draw extends Component implements Runnable {
 
 				if (brojac == som.brojGradova || counter == 1300) {
 					please_stop = true;
-					Evolve.l1.setText("");
-					Evolve.l2.setText("Ukupno rastojanje: "+ + som.UkupnaDistanca());
+					double val = som.UkupnaDistanca();
+					val *= 100;
+					val = Math.round(val);
+					val = val/100;
+					Evolve.l1.setText("" + val);
+					//Evolve.l2.setText("Ukupno rastojanje: "+ + som.UkupnaDistanca());
 					// paint(this.getGraphics());
 					repaint();
 				}
@@ -86,6 +90,7 @@ public class Draw extends Component implements Runnable {
 
 		}
 		please_stop = false;
+		Evolve.created = false;
 		Evolve.btn1.setEnabled(true);
 		Evolve.btn2.setEnabled(true);
 	}
